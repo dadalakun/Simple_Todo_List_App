@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.example.todolist.R
 import com.example.todolist.databinding.FragmentHomeBinding
 
@@ -33,6 +34,11 @@ class HomeFragment : Fragment() {
         )
 
         viewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
+
+        // Add listener
+        binding.addTodoButton.setOnClickListener {
+            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToAddTodoFragment())
+        }
 
         return binding.root
     }
