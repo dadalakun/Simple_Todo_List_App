@@ -8,29 +8,42 @@
         android:layout_height="match_parent"
         tools:context=".addtodo.AddTodoFragment">
 
-        <Button
-            android:id="@+id/submit_button"
+        <TextView
+            android:id="@+id/todo_title_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:text="Create"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/show_all_button" />
+            android:text="Title"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            app:layout_constraintBaseline_toBaselineOf="@+id/todo_title_input"
+            app:layout_constraintEnd_toStartOf="@+id/todo_title_input"
+            app:layout_constraintStart_toStartOf="parent" />
 
-        <Button
-            android:id="@+id/pick_date_button"
+        <EditText
+            android:id="@+id/todo_title_input"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="2022/2/21"
-            android:textSize="20sp"
+            android:ems="10"
+            android:hint="ex: See a doctor"
+            android:inputType="textPersonName"
+            android:minHeight="48dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.617"
+            app:layout_constraintHorizontal_bias="0.761"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.381" />
+            app:layout_constraintVertical_bias="0.095" />
+
+        <TextView
+            android:id="@+id/todo_detail_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Description"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            app:layout_constraintBaseline_toBaselineOf="@+id/todo_detail_input"
+            app:layout_constraintEnd_toStartOf="@+id/todo_detail_input"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <EditText
             android:id="@+id/todo_detail_input"
@@ -49,53 +62,6 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.236" />
 
-        <EditText
-            android:id="@+id/todo_title_input"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="ex: See a doctor"
-            android:inputType="textPersonName"
-            android:minHeight="48dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.761"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.095" />
-
-        <Button
-            android:id="@+id/show_all_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Test"
-            app:layout_constraintBaseline_toBaselineOf="@+id/submit_button"
-            app:layout_constraintEnd_toStartOf="@+id/submit_button"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <TextView
-            android:id="@+id/todo_title_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Title"
-            android:textSize="22sp"
-            android:textStyle="bold"
-            app:layout_constraintBaseline_toBaselineOf="@+id/todo_title_input"
-            app:layout_constraintEnd_toStartOf="@+id/todo_title_input"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <TextView
-            android:id="@+id/todo_detail_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Description"
-            android:textSize="22sp"
-            android:textStyle="bold"
-            app:layout_constraintBaseline_toBaselineOf="@+id/todo_detail_input"
-            app:layout_constraintEnd_toStartOf="@+id/todo_detail_input"
-            app:layout_constraintStart_toStartOf="parent" />
-
         <TextView
             android:id="@+id/todo_duedate_label"
             android:layout_width="wrap_content"
@@ -106,6 +72,90 @@
             app:layout_constraintBaseline_toBaselineOf="@+id/pick_date_button"
             app:layout_constraintEnd_toStartOf="@+id/pick_date_button"
             app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/pick_date_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2022-02-21"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.576"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.409" />
+
+        <TextView
+            android:id="@+id/created_date_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Created date"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            app:layout_constraintBaseline_toBaselineOf="@+id/created_date_button"
+            app:layout_constraintEnd_toStartOf="@+id/created_date_button"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/created_date_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2022-02-21"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.58"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.567" />
+
+        <TextView
+            android:id="@+id/location_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Location"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            app:layout_constraintBaseline_toBaselineOf="@+id/location_coordinate"
+            app:layout_constraintEnd_toStartOf="@+id/location_coordinate"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/location_coordinate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="(25.0174719, 121.3662922)"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.846"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.696" />
+
+        <Button
+            android:id="@+id/cancel_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cancel"
+            app:layout_constraintBaseline_toBaselineOf="@+id/submit_button"
+            app:layout_constraintEnd_toStartOf="@+id/submit_button"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/submit_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:text="Create"
+            android:enabled="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/cancel_button" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

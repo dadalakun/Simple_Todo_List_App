@@ -6,9 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.todolist.R
+import com.example.todolist.database.TodoDatabase
 import com.example.todolist.databinding.FragmentHomeBinding
 
 /**
@@ -17,9 +19,6 @@ import com.example.todolist.databinding.FragmentHomeBinding
 class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
-
-    private lateinit var viewModel: HomeViewModel
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,12 +32,31 @@ class HomeFragment : Fragment() {
             false
         )
 
-        viewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
+        val application = requireNotNull(this.activity).application
+        // Get the reference to the DAO of the database
+        val dataSource = TodoDatabase.getInstance(application).todoDatabaseDao
+        val viewModelFactory = HomeViewModelFactory(dataSource, application)
+        val viewModel = ViewModelProvider(
+            this, viewModelFactory).get(HomeViewModel::class.java)
 
-        // Add listener
+        /** Setup listener **/
         binding.addTodoButton.setOnClickListener {
             findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToAddTodoFragment())
         }
+
+        /** Setup LiveData observation relationship **/
+//        viewModel.todosString.observe(viewLifecycleOwner, Observer { todos ->
+//            binding.testTextfield.text = todos
+//        })
+
+        /** Setup adapter **/
+        val adapter = TodoAdapter()
+        binding.todoList.adapter = adapter
+        viewModel.todos.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                adapter.data = it
+            }
+        })
 
         return binding.root
     }

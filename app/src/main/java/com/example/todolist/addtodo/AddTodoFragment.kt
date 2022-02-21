@@ -1,6 +1,5 @@
 package com.example.todolist.addtodo
 
-import android.app.DatePickerDialog
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -13,9 +12,6 @@ import androidx.navigation.fragment.findNavController
 import com.example.todolist.R
 import com.example.todolist.database.TodoDatabase
 import com.example.todolist.databinding.FragmentAddTodoBinding
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
-import java.util.*
 
 /**
  * Fragment where user input information and create a todo
@@ -47,7 +43,6 @@ class AddTodoFragment : Fragment() {
         binding.pickDateButton.setOnClickListener {
             val datePickerFragment = DatePickerFragment()
             val supportFragmentManager = requireActivity().supportFragmentManager
-
             supportFragmentManager.setFragmentResultListener(
                 "REQUEST_KEY",
                 viewLifecycleOwner
@@ -62,20 +57,40 @@ class AddTodoFragment : Fragment() {
             datePickerFragment.show(supportFragmentManager, "DatePickerFragment")
         }
 
-        binding.submitButton.setOnClickListener {
-            viewModel.onFinish(binding.todoTitleInput.text.toString(),
-            binding.todoDetailInput.text.toString())
+        binding.createdDateButton.setOnClickListener {
+            val datePickerFragment = DatePickerFragment()
+            val supportFragmentManager = requireActivity().supportFragmentManager
+            supportFragmentManager.setFragmentResultListener(
+                "REQUEST_KEY",
+                viewLifecycleOwner
+            ) { resultKey, bundle ->
+                if (resultKey == "REQUEST_KEY") {
+                    val date = bundle.getString("SELECTED_DATE")
+                    viewModel.created_date.value = date
+                }
+            }
+
+            // show
+            datePickerFragment.show(supportFragmentManager, "DatePickerFragment")
         }
 
-        binding.showAllButton.setOnClickListener {
-            viewModel.showAll()
+        binding.submitButton.setOnClickListener {
+            viewModel.submit(binding.todoTitleInput.text.toString(),
+            binding.todoDetailInput.text.toString())
+            findNavController().navigate(AddTodoFragmentDirections.actionAddTodoFragmentToHomeFragment())
+        }
+
+        binding.cancelButton.setOnClickListener {
+            findNavController().navigate(AddTodoFragmentDirections.actionAddTodoFragmentToHomeFragment())
         }
 
         /** Setup LiveData observation relationship **/
-        viewModel.duedate.observe(viewLifecycleOwner, Observer { newduedate ->
-//            binding.todoDuedateInput.text = newduedate
-            binding.pickDateButton.text = newduedate
+        viewModel.duedate.observe(viewLifecycleOwner, Observer { new_duedate ->
+            binding.pickDateButton.text = new_duedate
         })
+//        viewModel.created_date.observe(viewLifecycleOwner, Observer { new_created_date ->
+//            binding.createdDateButton.text = new_created_date
+//        })
 
         return binding.root
     }
