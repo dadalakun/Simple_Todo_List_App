@@ -17,4 +17,10 @@ interface TodoDatabaseDao {
     @Query("DELETE FROM todo_table")
     suspend fun clear()
 
+    @Query("SELECT * FROM todo_table WHERE title = :title")
+    suspend fun get(title: String): Todo?
+
+    @Query("SELECT EXISTS (SELECT 1 FROM todo_table WHERE title = :title)")
+    suspend fun exists(title: String): Boolean
+
 }

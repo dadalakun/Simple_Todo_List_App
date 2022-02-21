@@ -11,6 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.todolist.R
+import com.example.todolist.database.TodoDatabase
 import com.example.todolist.databinding.FragmentAddTodoBinding
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -23,8 +24,6 @@ class AddTodoFragment : Fragment() {
 
     private lateinit var binding: FragmentAddTodoBinding
 
-    private lateinit var viewModel: AddTodoViewModel
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -36,8 +35,12 @@ class AddTodoFragment : Fragment() {
             container,
             false
         )
-
-        viewModel = ViewModelProvider(this).get(AddTodoViewModel::class.java)
+        val application = requireNotNull(this.activity).application
+        // Get the reference to the DAO of the database
+        val dataSource = TodoDatabase.getInstance(application).todoDatabaseDao
+        val viewModelFactory = AddTodoViewModelFactory(dataSource, application)
+        val viewModel = ViewModelProvider(
+            this, viewModelFactory).get(AddTodoViewModel::class.java)
 
         /** Setup listener **/
         // ref: https://github.com/chankruze/DatePickerDialogFragment
@@ -64,9 +67,14 @@ class AddTodoFragment : Fragment() {
             binding.todoDetailInput.text.toString())
         }
 
+        binding.showAllButton.setOnClickListener {
+            viewModel.showAll()
+        }
+
         /** Setup LiveData observation relationship **/
         viewModel.duedate.observe(viewLifecycleOwner, Observer { newduedate ->
-            binding.todoDuedateInput.text = newduedate
+//            binding.todoDuedateInput.text = newduedate
+            binding.pickDateButton.text = newduedate
         })
 
         return binding.root
