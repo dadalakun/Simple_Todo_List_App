@@ -36,11 +36,8 @@ class DatePickerFragment : DialogFragment(), DatePickerDialog.OnDateSetListener 
 //            "Date Set : ${formatDate(year,month,day)}"
 //            ,Toast.LENGTH_SHORT
 //        ).show()
-
-        calendar.set(Calendar.YEAR, year)
-        calendar.set(Calendar.MONTH, month)
-        calendar.set(Calendar.DAY_OF_MONTH, day)
-        val selectedDate = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).format(calendar.time)
+        calendar.set(year, month, day)
+        val selectedDate = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH).format(calendar.time)
 
         val selectedDateBundle = Bundle()
         selectedDateBundle.putString("SELECTED_DATE", selectedDate)
