@@ -18,43 +18,56 @@ import com.example.todolist.databinding.FragmentHomeBinding
  */
 class HomeFragment : Fragment() {
 
-    private lateinit var binding: FragmentHomeBinding
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? {
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate view and obtain an instance of the binding class
-        binding = DataBindingUtil.inflate(
-            inflater,
-            R.layout.fragment_home,
-            container,
-            false
-        )
+        // Get a reference to the binding object and inflate the fragment views.
+        val binding: FragmentHomeBinding = DataBindingUtil.inflate(
+            inflater, R.layout.fragment_home, container,false)
 
         val application = requireNotNull(this.activity).application
-        // Get the reference to the DAO of the database
+
+        // Create an instance of the ViewModel Factory.
         val dataSource = TodoDatabase.getInstance(application).todoDatabaseDao
         val viewModelFactory = HomeViewModelFactory(dataSource, application)
-        val viewModel = ViewModelProvider(
+        val homeViewModel = ViewModelProvider(
             this, viewModelFactory).get(HomeViewModel::class.java)
 
-        /** Setup listener **/
-        binding.addTodoButton.setOnClickListener {
-            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToAddTodoFragment())
-        }
+        // To use the View Model with data binding, explicitly give the binding
+        // object a reference to it.
+        binding.homeViewModel = homeViewModel
 
-        /** Setup LiveData observation relationship **/
-//        viewModel.todosString.observe(viewLifecycleOwner, Observer { todos ->
-//            binding.testTextfield.text = todos
-//        })
-
-        /** Setup adapter **/
-        val adapter = TodoAdapter()
+        // Setup adapter
+        val adapter = TodoAdapter(TodoListener { todoId ->
+            homeViewModel.onTodoClicked(todoId)
+        })
         binding.todoList.adapter = adapter
-        viewModel.todos.observe(viewLifecycleOwner, Observer {
+
+        homeViewModel.todos.observe(viewLifecycleOwner, Observer {
             it?.let {
-                adapter.data = it
+                adapter.submitList(it)
+            }
+        })
+
+        // Specify the current activity as the lifecycle owner of the binding.
+        // This is necessary so that the binding can observe LiveData updates.
+        binding.setLifecycleOwner(this)
+
+        // Add Observers on the state variable to track when to navigate
+        homeViewModel.navigateToAddTodo.observe(this, Observer {
+            if (it == true) {
+                this.findNavController().navigate(
+                    HomeFragmentDirections.actionHomeFragmentToAddTodoFragment()
+                )
+                homeViewModel.doneNavigation()
+            }
+        })
+        homeViewModel.navigateToToDoDetail.observe(this, Observer { todoId ->
+            todoId?.let {
+                this.findNavController().navigate(
+                    HomeFragmentDirections.actionHomeFragmentToTodoDetailFragment(todoId)
+                )
+                homeViewModel.onTodoDetailNavigated()
             }
         })
 

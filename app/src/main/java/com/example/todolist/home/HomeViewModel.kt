@@ -2,25 +2,51 @@ package com.example.todolist.home
 
 import android.app.Application
 import android.util.Log
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.Transformations
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
 import com.example.todolist.database.Todo
 import com.example.todolist.database.TodoDatabaseDao
 
-class HomeViewModel(val database: TodoDatabaseDao,
-                    application: Application) : AndroidViewModel(application) {
-    val todos = database.getAllTodo()
-    val todosString = Transformations.map(todos) { todos ->
-        formatTodos(todos)
+class HomeViewModel(dataSource: TodoDatabaseDao,
+                    application: Application) : ViewModel() {
+
+    /**
+     * Hold a reference to TodoDatabase via Dao
+     */
+    val database = dataSource
+    val todos = database.getAllTodos()
+
+    /**
+     * Navigation for the AddTodo fragment
+     */
+    private val _navigateToAddTodo = MutableLiveData<Boolean?>()
+    val navigateToAddTodo: LiveData<Boolean?>
+        get() = _navigateToAddTodo
+
+    fun onAddTodoClicked() {
+        _navigateToAddTodo.value = true
+    }
+
+    fun doneNavigation() {
+        _navigateToAddTodo.value = null
+    }
+
+    /**
+     * Navigation for the TodoDetail fragment
+     */
+    private val _navigateToTodoDetail = MutableLiveData<Long?>()
+    val navigateToToDoDetail
+        get() = _navigateToTodoDetail
+
+    fun onTodoClicked(id: Long) {
+        _navigateToTodoDetail.value = id
+    }
+
+    fun onTodoDetailNavigated() {
+        _navigateToTodoDetail.value = null
     }
 
     init {
 
     }
 
-    private fun formatTodos(tds: List<Todo>): String {
-        Log.i("mumi", "${tds}")
-        return "Mumimumi shin don don"
-    }
 }

@@ -88,9 +88,6 @@ class AddTodoFragment : Fragment() {
         viewModel.duedate.observe(viewLifecycleOwner, Observer { new_duedate ->
             binding.pickDateButton.text = new_duedate
         })
-//        viewModel.created_date.observe(viewLifecycleOwner, Observer { new_created_date ->
-//            binding.createdDateButton.text = new_created_date
-//        })
 
         return binding.root
     }

@@ -1,31 +1,54 @@
 package com.example.todolist.home
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.todolist.R
-import com.example.todolist.TextItemViewHolder
 import com.example.todolist.database.Todo
+import com.example.todolist.databinding.ListItemTodoBinding
 
-class TodoAdapter: RecyclerView.Adapter<TextItemViewHolder>() {
-    var data = listOf<Todo>()
-        set(value) {
-            field = value
-            notifyDataSetChanged()
+class TodoAdapter(val clickListener: TodoListener): ListAdapter<Todo, TodoAdapter.ViewHolder>(TodoDiffCallback()) {
+
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.bind(getItem(position)!!, clickListener)
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        return ViewHolder.from(parent)
+    }
+
+    class ViewHolder private constructor (val binding: ListItemTodoBinding) : RecyclerView.ViewHolder(binding.root){
+
+        fun bind(item: Todo, clickListener: TodoListener) {
+            binding.todo = item
+            binding.clickListener = clickListener
+            binding.executePendingBindings()
         }
 
-    override fun getItemCount() = data.size
+        companion object {
+            fun from(parent: ViewGroup): ViewHolder {
+                val layoutInflater = LayoutInflater.from(parent.context)
+                val binding = ListItemTodoBinding.inflate(layoutInflater, parent, false)
+                return ViewHolder(binding)
+            }
+        }
+    }
+}
 
-    override fun onBindViewHolder(holder: TextItemViewHolder, position: Int) {
-        val item = data[position]
-        holder.textView.text = item.title
+class TodoDiffCallback : DiffUtil.ItemCallback<Todo>() {
+    override fun areItemsTheSame(oldItem: Todo, newItem: Todo): Boolean {
+        return oldItem.todoId == newItem.todoId
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TextItemViewHolder {
-        val layoutInflater = LayoutInflater.from(parent.context)
-        val view = layoutInflater
-            .inflate(R.layout.text_item_view, parent, false) as TextView
-        return TextItemViewHolder(view)
+    override fun areContentsTheSame(oldItem: Todo, newItem: Todo): Boolean {
+        return oldItem == newItem
     }
+}
+
+class TodoListener(val clickListener: (todoId: Long) -> Unit) {
+    fun onClick(todo: Todo) = clickListener(todo.todoId)
 }
