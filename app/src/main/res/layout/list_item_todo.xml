@@ -16,27 +16,48 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="@{() -> clickListener.onClick(todo)}" >
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/back"
+        android:onClick="@{() -> clickListener.onClick(todo)}"
+        android:padding="10dp">
 
         <TextView
             android:id="@+id/todo_title"
             android:layout_width="0dp"
-            android:layout_height="30dp"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:todoDescription="@{todo}"
+            app:todoTitle="@{todo}"
             tools:text="See a doctor" />
 
         <TextView
-            android:id="@+id/todo_detail"
+            android:id="@+id/todo_duedate"
             android:layout_width="0dp"
-            android:layout_height="30dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/todo_title"
-            app:todoTitle="@{todo}"
+            app:todoDuedate="@{todo}"
+            tools:text="2022-02-22" />
+
+        <TextView
+            android:id="@+id/todo_description"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/todo_duedate"
+            app:todoDescription="@{todo}"
             tools:text="Take the bus 123" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

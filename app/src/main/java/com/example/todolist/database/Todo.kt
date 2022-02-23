@@ -3,6 +3,7 @@ package com.example.todolist.database
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.util.*
 
 @Entity(tableName = "todo_table")
 data class Todo(
@@ -13,8 +14,8 @@ data class Todo(
     val title: String = "",
 
     @ColumnInfo(name = "detail")
-    var detail: String = "",
+    var description: String = "",
 
     @ColumnInfo(name = "due_date")
-    var duedate: String = ""
+    var duedate: Date = Date()
 )

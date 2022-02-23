@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.example.todolist.convertDateToString
 import com.example.todolist.database.Todo
 import com.example.todolist.database.TodoDatabaseDao
 import kotlinx.coroutines.launch
@@ -14,24 +15,25 @@ import java.util.*
 class AddTodoViewModel(val database: TodoDatabaseDao,
                        application: Application) : AndroidViewModel(application) {
 
-    var duedate = MutableLiveData<String>()
-    var created_date = MutableLiveData<String>()
+    var due_date = MutableLiveData<Date>()
+    var created_date = MutableLiveData<Date>()
 
     init {
+        created_date.value = Date()
+        // Set the default value of due_date to tomorrow
         var dt = Date()
         val c = Calendar.getInstance()
         c.time = dt
         c.add(Calendar.DATE, 1)
         dt = c.time
-        duedate.value = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH).format(dt)
-        created_date.value = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH).format(Date())
+        due_date.value = dt
     }
 
     fun submit(title: String, detail: String) {
         viewModelScope.launch {
-            val newTodo = Todo(title = title, detail = detail, duedate = duedate.value.toString())
+            val newTodo = Todo(title = title, description = detail, duedate = due_date.value!!)
             insert(newTodo)
-            Log.i("mumi", "Add todo(\nt: ${title},\nd: ${detail},\ndue: ${duedate.value}, \ncur: ${created_date.value}\n)")
+            Log.i("Add todo", "Add todo(\nt: ${title},\nd: ${detail},\ndue: ${due_date.value}, \ncur: ${created_date.value}\n)")
         }
     }
 

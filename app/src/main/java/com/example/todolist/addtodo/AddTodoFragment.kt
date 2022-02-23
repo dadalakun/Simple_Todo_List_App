@@ -10,8 +10,10 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.todolist.R
+import com.example.todolist.convertDateToString
 import com.example.todolist.database.TodoDatabase
 import com.example.todolist.databinding.FragmentAddTodoBinding
+import java.util.*
 
 /**
  * Fragment where user input information and create a todo
@@ -48,8 +50,8 @@ class AddTodoFragment : Fragment() {
                 viewLifecycleOwner
             ) { resultKey, bundle ->
                 if (resultKey == "REQUEST_KEY") {
-                    val date = bundle.getString("SELECTED_DATE")
-                    viewModel.duedate.value = date
+                    val date = bundle.getSerializable("SELECTED_DATE")
+                    viewModel.due_date.value = date as Date?
                 }
             }
 
@@ -65,8 +67,8 @@ class AddTodoFragment : Fragment() {
                 viewLifecycleOwner
             ) { resultKey, bundle ->
                 if (resultKey == "REQUEST_KEY") {
-                    val date = bundle.getString("SELECTED_DATE")
-                    viewModel.created_date.value = date
+                    val date = bundle.getSerializable("SELECTED_DATE")
+                    viewModel.due_date.value = date as Date?
                 }
             }
 
@@ -85,8 +87,11 @@ class AddTodoFragment : Fragment() {
         }
 
         /** Setup LiveData observation relationship **/
-        viewModel.duedate.observe(viewLifecycleOwner, Observer { new_duedate ->
-            binding.pickDateButton.text = new_duedate
+        viewModel.due_date.observe(viewLifecycleOwner, Observer { new_duedate ->
+            binding.pickDateButton.text = convertDateToString(new_duedate)
+        })
+        viewModel.created_date.observe(viewLifecycleOwner, Observer { new_created_date ->
+            binding.createdDateButton.text = convertDateToString(new_created_date)
         })
 
         return binding.root

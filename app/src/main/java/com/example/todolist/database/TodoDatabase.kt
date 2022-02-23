@@ -1,12 +1,11 @@
 package com.example.todolist.database
 
 import android.content.Context
-import androidx.room.Database
-import androidx.room.Room
-import androidx.room.RoomDatabase
+import androidx.room.*
 
 // ref(drop db and create a new one): https://stackoverflow.com/questions/55226859/android-room-persistance-library-drop-table
-@Database(entities = [Todo::class], version = 1, exportSchema = false)
+@Database(entities = [Todo::class], version = 2, exportSchema = false)
+@TypeConverters(Converters::class)
 abstract class TodoDatabase : RoomDatabase() {
     abstract val todoDatabaseDao: TodoDatabaseDao
 

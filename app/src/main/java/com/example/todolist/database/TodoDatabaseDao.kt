@@ -14,7 +14,7 @@ interface TodoDatabaseDao {
     @Query("SELECT * FROM todo_table WHERE todoId = :key")
     fun getTodoWithId(key: Long): LiveData<Todo>
 
-    @Query("SELECT * FROM todo_table ORDER BY todoId DESC")
+    @Query("SELECT * FROM todo_table ORDER BY due_date ASC")
     fun getAllTodos(): LiveData<List<Todo>>
 
     @Query("DELETE FROM todo_table")

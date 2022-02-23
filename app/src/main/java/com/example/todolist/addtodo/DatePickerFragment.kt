@@ -4,13 +4,8 @@ import android.app.DatePickerDialog
 import android.app.Dialog
 import android.os.Bundle
 import android.widget.DatePicker
-import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.setFragmentResult
-import com.example.todolist.R
-import java.text.DateFormat
-import java.text.SimpleDateFormat
 import java.util.*
 
 class DatePickerFragment : DialogFragment(), DatePickerDialog.OnDateSetListener {
@@ -25,34 +20,21 @@ class DatePickerFragment : DialogFragment(), DatePickerDialog.OnDateSetListener 
         val month = calendar.get(Calendar.MONTH)
         val day = calendar.get(Calendar.DAY_OF_MONTH)
 
+        // Setup date picker  dialog
+        val datePicker = DatePickerDialog(requireContext(), this, year, month, day)
+        datePicker.getDatePicker().setMinDate(System.currentTimeMillis() - 1000)
         // Return a date picker dialog
-        return DatePickerDialog(requireContext(), this, year, month, day)
+        return datePicker
     }
 
     // When date set and press ok button in date picker dialog
     override fun onDateSet(view: DatePicker, year: Int, month: Int, day: Int) {
-//        Toast.makeText(
-//            activity,
-//            "Date Set : ${formatDate(year,month,day)}"
-//            ,Toast.LENGTH_SHORT
-//        ).show()
         calendar.set(year, month, day)
-        val selectedDate = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH).format(calendar.time)
+//        val selectedDate = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH).format(calendar.time)
 
         val selectedDateBundle = Bundle()
-        selectedDateBundle.putString("SELECTED_DATE", selectedDate)
-
+        selectedDateBundle.putSerializable("SELECTED_DATE", calendar.time)
         setFragmentResult("REQUEST_KEY", selectedDateBundle)
     }
 
-    // Custom method to format date
-    private fun formatDate(year:Int, month:Int, day:Int):String{
-        // Create a Date variable/object with user chosen date
-        calendar.set(year, month, day, 0, 0, 0)
-        val chosenDate = calendar.time
-
-        // Format the date picker selected date
-        val df = DateFormat.getDateInstance(DateFormat.MEDIUM)
-        return df.format(chosenDate)
-    }
 }
