@@ -38,7 +38,7 @@ class AddTodoFragment : Fragment() {
 
         binding.setLifecycleOwner(this)
 
-        /** Setup listener **/
+        // Use DatePickerFragment to help user selecting the date
         // ref: https://github.com/chankruze/DatePickerDialogFragment
         binding.dueDateButton.setOnClickListener {
             val datePickerFragment = DatePickerFragment()
@@ -84,12 +84,15 @@ class AddTodoFragment : Fragment() {
             findNavController().navigate(AddTodoFragmentDirections.actionAddTodoFragmentToHomeFragment())
         }
 
-        // Add Observers for date button and navigation
+        // Add Observers for date button/reload button/navigation
         addTodoViewModel.due_date.observe(viewLifecycleOwner, Observer { new_due_date ->
             binding.dueDateButton.text = convertDateToString(new_due_date)
         })
         addTodoViewModel.created_date.observe(viewLifecycleOwner, Observer { new_created_date ->
             binding.createdDateButton.text = convertDateToString(new_created_date)
+        })
+        addTodoViewModel.location.observe(viewLifecycleOwner, Observer { new_location ->
+            binding.locationInput.text = new_location
         })
 
         addTodoViewModel.navigateToHome.observe(viewLifecycleOwner, Observer {

@@ -1,6 +1,7 @@
 package com.example.todolist.home
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +13,8 @@ import androidx.navigation.fragment.findNavController
 import com.example.todolist.R
 import com.example.todolist.database.TodoDatabase
 import com.example.todolist.databinding.FragmentHomeBinding
+import com.google.android.gms.common.GoogleApiAvailability
+import com.google.android.gms.common.GooglePlayServicesUtil.isGooglePlayServicesAvailable
 
 /**
  * Fragment where todos are displayed
@@ -70,6 +73,9 @@ class HomeFragment : Fragment() {
                 homeViewModel.onTodoDetailNavigated()
             }
         })
+
+//        val test = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(requireContext())
+//        Log.i("mumi", "${test}")
 
         return binding.root
     }

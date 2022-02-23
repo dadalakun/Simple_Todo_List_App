@@ -45,7 +45,7 @@ fun TextView.setTodoCreatedDate(item: Todo?) {
 @BindingAdapter("todoLocation")
 fun TextView.setTodoLocation(item: Todo?) {
     item?.let {
-        text = "Location:"
+        text = "Location: ${item.location}"
     }
 }
 

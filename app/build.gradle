@@ -61,4 +61,7 @@ dependencies {
     // ViewModel
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1'
 
+    // google play sdk
+    implementation 'com.google.android.gms:play-services-location:19.0.1'
+
 }

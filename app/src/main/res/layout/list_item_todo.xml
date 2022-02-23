@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="10dp"
+        android:layout_marginEnd="15dp"
         android:background="@drawable/back"
         android:onClick="@{() -> clickListener.onClick(todo)}"
         android:padding="10dp">

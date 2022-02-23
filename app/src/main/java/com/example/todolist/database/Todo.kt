@@ -20,6 +20,9 @@ data class Todo(
     var created_date: Date = Date(),
 
     @ColumnInfo(name = "due_date")
-    var due_date: Date = Date()
+    var due_date: Date = Date(),
+
+    @ColumnInfo(name = "location")
+    var location: String = "None"
 
 )
