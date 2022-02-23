@@ -13,9 +13,13 @@ data class Todo(
     @ColumnInfo(name = "title")
     val title: String = "",
 
-    @ColumnInfo(name = "detail")
+    @ColumnInfo(name = "description")
     var description: String = "",
 
+    @ColumnInfo(name = "created_date")
+    var created_date: Date = Date(),
+
     @ColumnInfo(name = "due_date")
-    var duedate: Date = Date()
+    var due_date: Date = Date()
+
 )

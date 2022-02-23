@@ -20,29 +20,27 @@ import java.util.*
  */
 class AddTodoFragment : Fragment() {
 
-    private lateinit var binding: FragmentAddTodoBinding
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? {
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate view and obtain an instance of the binding class
-        binding = DataBindingUtil.inflate(
-            inflater,
-            R.layout.fragment_add_todo,
-            container,
-            false
-        )
+        // Get a reference to the binding object and inflate the fragment views.
+        val binding: FragmentAddTodoBinding = DataBindingUtil.inflate(
+            inflater, R.layout.fragment_add_todo, container,false)
+
         val application = requireNotNull(this.activity).application
         // Get the reference to the DAO of the database
         val dataSource = TodoDatabase.getInstance(application).todoDatabaseDao
         val viewModelFactory = AddTodoViewModelFactory(dataSource, application)
-        val viewModel = ViewModelProvider(
+        val addTodoViewModel = ViewModelProvider(
             this, viewModelFactory).get(AddTodoViewModel::class.java)
+
+        binding.addTodoViewModel = addTodoViewModel
+
+        binding.setLifecycleOwner(this)
 
         /** Setup listener **/
         // ref: https://github.com/chankruze/DatePickerDialogFragment
-        binding.pickDateButton.setOnClickListener {
+        binding.dueDateButton.setOnClickListener {
             val datePickerFragment = DatePickerFragment()
             val supportFragmentManager = requireActivity().supportFragmentManager
             supportFragmentManager.setFragmentResultListener(
@@ -51,7 +49,7 @@ class AddTodoFragment : Fragment() {
             ) { resultKey, bundle ->
                 if (resultKey == "REQUEST_KEY") {
                     val date = bundle.getSerializable("SELECTED_DATE")
-                    viewModel.due_date.value = date as Date?
+                    addTodoViewModel.due_date.value = date as Date?
                 }
             }
 
@@ -68,7 +66,7 @@ class AddTodoFragment : Fragment() {
             ) { resultKey, bundle ->
                 if (resultKey == "REQUEST_KEY") {
                     val date = bundle.getSerializable("SELECTED_DATE")
-                    viewModel.due_date.value = date as Date?
+                    addTodoViewModel.created_date.value = date as Date?
                 }
             }
 
@@ -77,21 +75,30 @@ class AddTodoFragment : Fragment() {
         }
 
         binding.submitButton.setOnClickListener {
-            viewModel.submit(binding.todoTitleInput.text.toString(),
+            addTodoViewModel.submit(binding.todoTitleInput.text.toString(),
             binding.todoDetailInput.text.toString())
-            findNavController().navigate(AddTodoFragmentDirections.actionAddTodoFragmentToHomeFragment())
+            addTodoViewModel.onCreated()
         }
 
         binding.cancelButton.setOnClickListener {
             findNavController().navigate(AddTodoFragmentDirections.actionAddTodoFragmentToHomeFragment())
         }
 
-        /** Setup LiveData observation relationship **/
-        viewModel.due_date.observe(viewLifecycleOwner, Observer { new_duedate ->
-            binding.pickDateButton.text = convertDateToString(new_duedate)
+        // Add Observers for date button and navigation
+        addTodoViewModel.due_date.observe(viewLifecycleOwner, Observer { new_due_date ->
+            binding.dueDateButton.text = convertDateToString(new_due_date)
         })
-        viewModel.created_date.observe(viewLifecycleOwner, Observer { new_created_date ->
+        addTodoViewModel.created_date.observe(viewLifecycleOwner, Observer { new_created_date ->
             binding.createdDateButton.text = convertDateToString(new_created_date)
+        })
+
+        addTodoViewModel.navigateToHome.observe(viewLifecycleOwner, Observer {
+            if (it == true) {
+                this.findNavController().navigate(
+                    AddTodoFragmentDirections.actionAddTodoFragmentToHomeFragment()
+                )
+                addTodoViewModel.doneNavigation()
+            }
         })
 
         return binding.root

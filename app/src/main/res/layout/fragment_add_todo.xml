@@ -3,6 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+        <variable
+            name="addTodoViewModel"
+            type="com.example.todolist.addtodo.AddTodoViewModel" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -35,7 +41,7 @@
             app:layout_constraintVertical_bias="0.095" />
 
         <TextView
-            android:id="@+id/todo_detail_label"
+            android:id="@+id/todo_description_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Description"
@@ -63,18 +69,18 @@
             app:layout_constraintVertical_bias="0.236" />
 
         <TextView
-            android:id="@+id/todo_duedate_label"
+            android:id="@+id/todo_due_date_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Due date"
             android:textSize="22sp"
             android:textStyle="bold"
-            app:layout_constraintBaseline_toBaselineOf="@+id/pick_date_button"
-            app:layout_constraintEnd_toStartOf="@+id/pick_date_button"
+            app:layout_constraintBaseline_toBaselineOf="@+id/due_date_button"
+            app:layout_constraintEnd_toStartOf="@+id/due_date_button"
             app:layout_constraintStart_toStartOf="parent" />
 
         <Button
-            android:id="@+id/pick_date_button"
+            android:id="@+id/due_date_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="2022-02-21"
@@ -108,7 +114,8 @@
             app:layout_constraintHorizontal_bias="0.58"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.567" />
+            app:layout_constraintVertical_bias="0.567"
+            />
 
         <TextView
             android:id="@+id/location_label"
@@ -117,12 +124,12 @@
             android:text="Location"
             android:textSize="22sp"
             android:textStyle="bold"
-            app:layout_constraintBaseline_toBaselineOf="@+id/location_coordinate"
-            app:layout_constraintEnd_toStartOf="@+id/location_coordinate"
+            app:layout_constraintBaseline_toBaselineOf="@+id/location_input"
+            app:layout_constraintEnd_toStartOf="@+id/location_input"
             app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
-            android:id="@+id/location_coordinate"
+            android:id="@+id/location_input"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="(25.0174719, 121.3662922)"
@@ -140,6 +147,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Cancel"
+            android:onClick="@{() -> addTodoViewModel.onCancel()}"
             app:layout_constraintBaseline_toBaselineOf="@+id/submit_button"
             app:layout_constraintEnd_toStartOf="@+id/submit_button"
             app:layout_constraintHorizontal_bias="0.5"

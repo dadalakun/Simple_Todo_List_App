@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.room.*
 
 // ref(drop db and create a new one): https://stackoverflow.com/questions/55226859/android-room-persistance-library-drop-table
-@Database(entities = [Todo::class], version = 2, exportSchema = false)
+@Database(entities = [Todo::class], version = 3, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class TodoDatabase : RoomDatabase() {
     abstract val todoDatabaseDao: TodoDatabaseDao

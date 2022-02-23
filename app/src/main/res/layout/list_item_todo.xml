@@ -36,7 +36,7 @@
             tools:text="See a doctor" />
 
         <TextView
-            android:id="@+id/todo_duedate"
+            android:id="@+id/todo_due_date"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
@@ -44,7 +44,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/todo_title"
-            app:todoDuedate="@{todo}"
+            app:todoDueDate="@{todo}"
             tools:text="2022-02-22" />
 
         <TextView
@@ -54,7 +54,7 @@
             android:layout_marginTop="5dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/todo_duedate"
+            app:layout_constraintTop_toBottomOf="@+id/todo_due_date"
             app:todoDescription="@{todo}"
             tools:text="Take the bus 123" />
 
