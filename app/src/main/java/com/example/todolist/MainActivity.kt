@@ -17,13 +17,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-//        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-//        Log.i("mumi", "before get location")
-//
-//
-//        fusedLocationClient.lastLocation
-//            .addOnSuccessListener { location : Location? ->
-//                Log.i("mumi", "${location?.latitude} ${location?.longitude}")
-//            }
+        val obj = ObjectWrapper()
+        val str = obj.QuoteToday()
+        Log.i("mumi", "${str}")
     }
 }

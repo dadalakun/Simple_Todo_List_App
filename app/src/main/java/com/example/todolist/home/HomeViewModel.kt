@@ -5,9 +5,12 @@ import android.util.Log
 import androidx.lifecycle.*
 import com.example.todolist.database.Todo
 import com.example.todolist.database.TodoDatabaseDao
+import com.example.todolist.ObjectWrapper
 
 class HomeViewModel(dataSource: TodoDatabaseDao,
                     application: Application) : ViewModel() {
+
+    var quote = "placeholder"
 
     /**
      * Hold a reference to TodoDatabase via Dao
@@ -46,7 +49,8 @@ class HomeViewModel(dataSource: TodoDatabaseDao,
     }
 
     init {
-
+        val obj = ObjectWrapper()
+        quote = obj.QuoteToday()
     }
 
 }
