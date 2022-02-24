@@ -1,52 +1,74 @@
 # Simple To-Do List App
 
-## Spec.
+此應用為一管理代辦事項的平台，使用者能在上面即時新增 / 刪除待辦事項，系統會根據完成期限由近到遠進行排序，並在主畫面呈現給使用者。
 
-- Users can see all to-do tasks sorted by due date with descending order in his/her to-do list.
-- Users can add/remove to-do tasks.
-- The following information is presented at each to-do task in the to-do list:
-  - title: ex: See a doctor
-  - description: ex: Take the Bus 123
-  - created date: ex: 2022/02/13
-  - due date: ex: 2022/02/14
-  - location coordinate where the task is added: ex: 25.0174719, 121.3662922
-  Thee data can be input by users.
-- Users can add unlimited to-do tasks into his/her to-do list.
-- All added to-do tasks are stored in the app.
-- To-do list keeps up-to-date in realtime after a to-do task is added or removed.
-- (Bonus) The daily quote is presented in the to-do list and it is updated daily. Must get the daily quote with `DailyQuote::Get()` in daily_quote.cpp.
+##
 
-## Platform
+### 開發平台
+* Android
 
-Choose one platform to implement:
+    * Language: Kotlin 1.6.10
+    * IDE: Android Studio Bumblebee | 2021.1.1
+    * Minimum Android version support: Android 6.0
 
-- iOS
-- Android
+### 測試環境
+* Pixel_3a_API_32_arm64-v8a (Android 12 - API 32)
+* Samgsung s8 (Android 9)
 
-Please follow the requirement for your choice:
 
-- iOS:
+## 簡單介紹
 
-  Language: Swift 5.5.2
+### 畫面
+此應用由三個 Fragment 所組成：
 
-  IDE: Xcode 13.2.1
-  
-  Minimum iOS version support: iOS 13.0
-  
-- Android
-  
-  Language: Kotlin 1.6.10
-  
-  IDE: Android Studio Bumblebee | 2021.1.1
-  
-  Minimum Android version support: Android 6.0
+* HomeFragment
 
-## Submit
+    顯示所有 Todo，並且在畫面的上方顯示 Daily Quote，點擊右下角懸浮按鈕可以進入新增 Todo 頁面。
 
-Submit your project by replying the interview email with the following information before 23:59:59 2022/02/25:
+    <img src="https://i.imgur.com/FMXVItL.png" width="250" >
 
-- The GitHub repo link to your implementation.
+* AddTodoFragment
 
-- How long did it take you to complete the project?
+    在此頁面填入資料並新增 Todo，需注意的是，Title 和 Description 為必填項目。
 
-Let us know if you have any questions.
+    <img src="https://i.imgur.com/QoWlXgD.png" width="250" >
+
+
+
+* TodoDetailFragment
+
+    於主頁面點擊個別 Todo 後會進入到此頁面，這個頁面會顯示個別 Todo 的詳細資料，包含建立日期和建立座標。除此之外點擊右下角的刪除按鈕可刪除 Todo 並導回主畫面。
+
+    <img src="https://i.imgur.com/ksfWPPR.png" width="250" >
+
+* 三個 Fragment 的程式分別位於 home/ addtodo/ tododetail/ 三個資料夾中
+
+##
+### 資料庫
+
+由 Room 套件在本地端建立資料庫，資料庫中包含兩個 table，一個是 todo_table，以一個 todo 建出一個 row 儲存關於代辦事項的資料。
+
+另一是 today_quote_table，此 table 負責儲存上次更新 Quote 的日期和該 Quote 的字串，有了這項資料，主頁面在重新生成 Quote 時會去比對當前日期和資料庫儲存的日期是否一樣，若當下時間相對於資料庫中上次更新 Quote 的時間已經跨日，系統會重新呼叫函式去產生一不同的 Quote，並更新在 today_quote_table 中。
+
+* 更新 Quote 邏輯部分可參考 HomeViewModel.kt 的 init {...}
+* 引入 C 函式並隨機生成 Quote 的部分可參考 src/main/cpp/ 資料夾
+* db 定義在 database/ 資料夾中
+
+##
+### 座標
+由於無法確定使用者是否有開啟 GPS 權限，因此在建立新的 Todo 時，其預設座標資料是預先寫死在程式中的，若想使用裝置目前的座標
+1. 須先在系統設定開啟此 app 的座標存取權限
+2. 執行其他會主動獲取座標資料的應用（如 google map）
+3. 按下新增頁面中 “Location” 下方的 Reload 按鈕
+
+這樣一來，app 會去抓此裝置由其他應用所記錄的 Last location 並顯示於新增頁面中，若是因為沒開權限或是沒有 Last location，則座標會在按下 Reload 後顯示 None。
+
+## Reference
+* [Google codelabs](https://developer.android.com/courses/kotlin-android-fundamentals/overview)
+
+    * Fragment / ViewModel / Factory 架構
+    * Room db
+    * RecyclerView
+
+* [Date Picker Fragment](https://github.com/chankruze/DatePickerDialogFragment)
+* [Call C function in Kotlin project](https://stackoverflow.com/questions/51613950/kotlin-ndk-and-c-interactions)
