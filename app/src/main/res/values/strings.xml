@@ -5,7 +5,7 @@
 
     <string name="title">Title</string>
     <string name="title_hint">ex: See a doctor</string>
-    <string name="description">description</string>
+    <string name="description">Description</string>
     <string name="description_hint">ex: Take the Bus 123</string>
     <string name="due_date">Due date</string>
     <string name="created_date">Created date</string>
