@@ -126,8 +126,8 @@
             android:textSize="22sp"
             android:textStyle="bold"
             app:layout_constraintBaseline_toBaselineOf="@+id/location_input"
-            app:layout_constraintEnd_toStartOf="@+id/location_input"
-            app:layout_constraintHorizontal_bias="0.358"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.11"
             app:layout_constraintStart_toStartOf="parent" />
 
         <Button
@@ -147,14 +147,14 @@
             android:id="@+id/location_input"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="180dp"
+            android:textAlignment="center"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.79"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.689"
+            app:layout_constraintVertical_bias="0.69"
             tools:text="(25.11194, 121.53148)" />
 
         <Button
