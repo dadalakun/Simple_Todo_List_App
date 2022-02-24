@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Update
 
 @Dao
 interface TodoDatabaseDao {
@@ -26,4 +27,15 @@ interface TodoDatabaseDao {
     @Query("SELECT EXISTS (SELECT 1 FROM todo_table WHERE title = :title)")
     suspend fun exists(title: String): Boolean
 
+    @Insert
+    suspend fun insert_today_quote(today_quote: TodayQuote)
+
+    @Update
+    suspend fun update_today_quote(today_quote: TodayQuote)
+
+    @Query("SELECT * FROM today_quote_table WHERE quoteId = :key")
+    suspend fun get_today_quote(key: Long): TodayQuote
+
+    @Query("DELETE FROM today_quote_table")
+    suspend fun clear_today_quote_table()
 }

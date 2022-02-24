@@ -18,37 +18,37 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="92dp"
-            android:text="See a doctor"
             android:textSize="28sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:todoTitle="@{todoDetailViewModel.todo}" />
+            app:todoTitle="@{todoDetailViewModel.todo}"
+            tools:text="See a doctor" />
 
         <TextView
             android:id="@+id/detail_due_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="Due: 2022-02-23"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/detail_title"
-            app:todoDueDateDetail="@{todoDetailViewModel.todo}" />
+            app:todoDueDateDetail="@{todoDetailViewModel.todo}"
+            tools:text="Due: 2022-02-23" />
 
         <TextView
             android:id="@+id/detail_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:text="Take the bus 123"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/detail_due_date"
-            app:todoDescription="@{todoDetailViewModel.todo}" />
+            app:todoDescription="@{todoDetailViewModel.todo}"
+            tools:text="Take the bus 123" />
 
         <TextView
             android:id="@+id/detail_created_date"
@@ -56,10 +56,10 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="100dp"
             android:layout_marginTop="60dp"
-            android:text="Created date: 2022-02-22"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/detail_description"
-            app:todoCreatedDate="@{todoDetailViewModel.todo}" />
+            app:todoCreatedDate="@{todoDetailViewModel.todo}"
+            tools:text="Created date: 2022-02-22" />
 
         <TextView
             android:id="@+id/detail_location"
@@ -67,20 +67,22 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="100dp"
             android:layout_marginTop="8dp"
-            android:text="Location: (25.10312, 121.52248)"
+            android:text=""
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/detail_created_date"
-            app:todoLocation="@{todoDetailViewModel.todo}" />
+            app:todoLocation="@{todoDetailViewModel.todo}"
+            tools:text="Location: (25.10312, 121.52248)" />
 
         <Button
             android:id="@+id/back_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="@{() -> todoDetailViewModel.onClose()}"
-            android:text="Back"
+            android:text="@string/back_button"
+            android:textAllCaps="false"
             app:layout_constraintBaseline_toBaselineOf="@+id/delete_button"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.337"
+            app:layout_constraintEnd_toStartOf="@+id/delete_button"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent" />
 
         <Button
@@ -88,15 +90,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="@{() -> todoDetailViewModel.onDelete()}"
-            android:text="Delete"
+            android:text="@string/delete_button"
+            android:textAllCaps="false"
+            app:backgroundTint="@color/button_delete"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.75"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/back_button"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.953" />
-
-
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

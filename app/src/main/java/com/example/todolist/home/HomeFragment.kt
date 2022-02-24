@@ -1,7 +1,6 @@
 package com.example.todolist.home
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -13,8 +12,6 @@ import androidx.navigation.fragment.findNavController
 import com.example.todolist.R
 import com.example.todolist.database.TodoDatabase
 import com.example.todolist.databinding.FragmentHomeBinding
-import com.google.android.gms.common.GoogleApiAvailability
-import com.google.android.gms.common.GooglePlayServicesUtil.isGooglePlayServicesAvailable
 
 /**
  * Fragment where todos are displayed
@@ -51,13 +48,16 @@ class HomeFragment : Fragment() {
                 adapter.submitList(it)
             }
         })
+        homeViewModel.quote.observe(viewLifecycleOwner, Observer { new_quote ->
+            binding.dailyQuote.text = new_quote
+        })
 
         // Specify the current activity as the lifecycle owner of the binding.
         // This is necessary so that the binding can observe LiveData updates.
         binding.setLifecycleOwner(this)
 
         // Add Observers on the state variable to track when to navigate
-        homeViewModel.navigateToAddTodo.observe(this, Observer {
+        homeViewModel.navigateToAddTodo.observe(viewLifecycleOwner, Observer {
             if (it == true) {
                 this.findNavController().navigate(
                     HomeFragmentDirections.actionHomeFragmentToAddTodoFragment()
@@ -65,7 +65,7 @@ class HomeFragment : Fragment() {
                 homeViewModel.doneNavigation()
             }
         })
-        homeViewModel.navigateToToDoDetail.observe(this, Observer { todoId ->
+        homeViewModel.navigateToToDoDetail.observe(viewLifecycleOwner, Observer { todoId ->
             todoId?.let {
                 this.findNavController().navigate(
                     HomeFragmentDirections.actionHomeFragmentToTodoDetailFragment(todoId)
@@ -73,9 +73,6 @@ class HomeFragment : Fragment() {
                 homeViewModel.onTodoDetailNavigated()
             }
         })
-
-//        val test = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(requireContext())
-//        Log.i("mumi", "${test}")
 
         return binding.root
     }

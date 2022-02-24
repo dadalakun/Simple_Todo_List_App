@@ -1,6 +1,5 @@
 package com.example.todolist.tododetail
 
-import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.todolist.database.TodoDatabaseDao

@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -16,7 +17,7 @@ import com.example.todolist.databinding.FragmentAddTodoBinding
 import java.util.*
 
 /**
- * Fragment where user input information and create a todo
+ * Fragment where user input information and create todo
  */
 class AddTodoFragment : Fragment() {
 
@@ -53,7 +54,7 @@ class AddTodoFragment : Fragment() {
                 }
             }
 
-            // show
+            // pop out the fragment
             datePickerFragment.show(supportFragmentManager, "DatePickerFragment")
         }
 
@@ -75,13 +76,15 @@ class AddTodoFragment : Fragment() {
         }
 
         binding.submitButton.setOnClickListener {
-            addTodoViewModel.submit(binding.todoTitleInput.text.toString(),
-            binding.todoDetailInput.text.toString())
-            addTodoViewModel.onCreated()
-        }
-
-        binding.cancelButton.setOnClickListener {
-            findNavController().navigate(AddTodoFragmentDirections.actionAddTodoFragmentToHomeFragment())
+            // Checking  whether the title and the description are valid value
+            val title = binding.todoTitleInput.text.toString().trim()
+            val description = binding.todoDetailInput.text.toString().trim()
+            if(title.isEmpty() || description.isEmpty()) {
+                Toast.makeText(context, "Missing title or description", Toast.LENGTH_SHORT).show()
+            } else {
+                addTodoViewModel.submit(title, description)
+                addTodoViewModel.onCreated()
+            }
         }
 
         // Add Observers for date button/reload button/navigation

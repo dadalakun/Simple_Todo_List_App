@@ -24,12 +24,11 @@ class TodoDetailFragment : Fragment() {
                 inflater, R.layout.fragment_todo_detail, container,false)
 
         val application = requireNotNull(this.activity).application
-//        val arguments = TodoDetailFragmentArgs.fromBundle(arguments)
+        // Get the argument passed from HomeFragment
         val args: TodoDetailFragmentArgs by navArgs()
 
         // Create an instance of the ViewModel Factory.
         val dataSource = TodoDatabase.getInstance(application).todoDatabaseDao
-//        val viewModelFactory = TodoDetailViewModelFactory(arguments.todoKey, dataSource)
         val viewModelFactory = TodoDetailViewModelFactory(args.todoKey, dataSource)
 
         // Get a reference to the ViewModel associated with this fragment.

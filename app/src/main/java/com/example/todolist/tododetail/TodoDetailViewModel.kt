@@ -38,19 +38,12 @@ class TodoDetailViewModel (private val todoKey: Long = 0L,
     }
 
     /**
-     * Variable that tells the fragment whether it should navigate to [HomeFragment]
+     * Navigation
      */
     private val _navigateToHome = MutableLiveData<Boolean?>()
-
-    /**
-     * When true immediately navigate back to the [HomeFragment]
-     */
     val navigateToHome: LiveData<Boolean?>
         get() = _navigateToHome
 
-    /**
-     * Call this immediately after navigating to [HomeFragment]
-     */
     fun doneNavigation() {
         _navigateToHome.value = null
     }

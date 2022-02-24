@@ -1,20 +1,16 @@
 package com.example.todolist.addtodo
 
 import android.Manifest
-import android.app.Activity
 import android.app.Application
 import android.content.pm.PackageManager
 import android.location.Location
-import android.util.Log
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.*
-import com.example.todolist.convertDateToString
 import com.example.todolist.database.Todo
 import com.example.todolist.database.TodoDatabaseDao
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import kotlinx.coroutines.launch
-import java.text.SimpleDateFormat
 import java.util.*
 
 class AddTodoViewModel(dataSource: TodoDatabaseDao,
@@ -24,6 +20,7 @@ class AddTodoViewModel(dataSource: TodoDatabaseDao,
      * Hold a reference to TodoDatabase via Dao
      */
     val database = dataSource
+    val app = application
 
     var due_date = MutableLiveData<Date>()
     var created_date = MutableLiveData<Date>()
@@ -44,7 +41,7 @@ class AddTodoViewModel(dataSource: TodoDatabaseDao,
 
     fun submit(title: String, description: String) {
         viewModelScope.launch {
-            val newTodo = Todo(title = title, description = description, due_date = due_date.value!!, created_date = created_date.value!!, location = location.value!!)
+            val newTodo = Todo(title = title.trim(), description = description.trim(), due_date = due_date.value!!, created_date = created_date.value!!, location = location.value!!)
             insert(newTodo)
         }
     }
@@ -54,6 +51,18 @@ class AddTodoViewModel(dataSource: TodoDatabaseDao,
     }
 
     fun reload() {
+        if (ActivityCompat.checkSelfPermission(
+                app,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                app,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            // Without permission to the GPS
+            location.value = "None"
+            return
+        }
         fusedLocationClient.lastLocation
             .addOnSuccessListener { loc : Location? ->
                 loc?.let {

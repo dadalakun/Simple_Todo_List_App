@@ -22,6 +22,7 @@ class DatePickerFragment : DialogFragment(), DatePickerDialog.OnDateSetListener 
 
         // Setup date picker  dialog
         val datePicker = DatePickerDialog(requireContext(), this, year, month, day)
+        // restrict the date that user can select
         datePicker.getDatePicker().setMinDate(System.currentTimeMillis() - 1000)
         // Return a date picker dialog
         return datePicker
@@ -30,7 +31,6 @@ class DatePickerFragment : DialogFragment(), DatePickerDialog.OnDateSetListener 
     // When date set and press ok button in date picker dialog
     override fun onDateSet(view: DatePicker, year: Int, month: Int, day: Int) {
         calendar.set(year, month, day)
-//        val selectedDate = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH).format(calendar.time)
 
         val selectedDateBundle = Bundle()
         selectedDateBundle.putSerializable("SELECTED_DATE", calendar.time)

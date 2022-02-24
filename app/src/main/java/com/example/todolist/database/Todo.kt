@@ -11,7 +11,7 @@ data class Todo(
     var todoId: Long = 0L,
 
     @ColumnInfo(name = "title")
-    val title: String = "",
+    var title: String = "",
 
     @ColumnInfo(name = "description")
     var description: String = "",
@@ -25,4 +25,16 @@ data class Todo(
     @ColumnInfo(name = "location")
     var location: String = "None"
 
+)
+
+@Entity(tableName = "today_quote_table")
+data class TodayQuote(
+    @PrimaryKey
+    var quoteId: Long = 0L,
+
+    @ColumnInfo(name = "today")
+    var today: Date = Date(),
+
+    @ColumnInfo(name = "quote")
+    var quote: String = ""
 )
