@@ -72,3 +72,8 @@
 
 * [Date Picker Fragment](https://github.com/chankruze/DatePickerDialogFragment)
 * [Call C function in Kotlin project](https://stackoverflow.com/questions/51613950/kotlin-ndk-and-c-interactions)
+
+## Updated on 3/6
+Now the app will ask the gps permission when user open the app, and it fetch/update location information automatically.
+
+#### ref: https://www.geeksforgeeks.org/how-to-get-current-location-in-android/

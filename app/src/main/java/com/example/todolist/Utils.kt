@@ -18,3 +18,4 @@ class ObjectWrapper {
 
     external fun QuoteToday(): String
 }
+
